@@ -14,4 +14,5 @@ print("showing info")
 
 tabs = " "
 for column in dataset.loc[:]:
-    print(f"{column} :{(50 - len(column))*tabs} {5644 - dataset[column].isna().sum()}")
+    goodvalues = 5644 - dataset[column].isna().sum()
+    print(f"{column} :{(55 - len(column))*tabs} {goodvalues} :{(5 - len(str(goodvalues)))*tabs} {round(100*goodvalues/5644, 3)} %")
