@@ -1,0 +1,115 @@
+PS C:\Users\20191887\github\VisualizationGroup33>  cd 'c:\Users\20191887\github\VisualizationGroup33'; & 'C:\Users\20191887\AppData\Local\Programs\Python\Python38-32\python.exe' 'c:\Users\20191887\.vscode\extensions\ms-python.python-2020.11.367453362\pythonFiles\lib\python\debugpy\launcher' '51987' '--' 'c:\Users\20191887\github\VisualizationGroup33\sandbox.py' 
+importing modules...done
+loading data (./archive/dataset.xlsx)... done
+showing info
+Patient ID :                                         5644
+Patient age quantile :                               5644
+SARS-Cov-2 exam result :                             5644
+Patient addmited to regular ward (1=yes, 0=no) :     5644
+Patient addmited to semi-intensive unit (1=yes, 0=no) : 5644
+Patient addmited to intensive care unit (1=yes, 0=no) : 5644
+Hematocrit :                                         603
+Hemoglobin :                                         603
+Platelets :                                          602
+Mean platelet volume  :                              599
+Red blood Cells :                                    602
+Lymphocytes :                                        602
+Mean corpuscular hemoglobin concentration (MCHC) :   602
+Leukocytes :                                         602
+Basophils :                                          602
+Mean corpuscular hemoglobin (MCH) :                  602
+Eosinophils :                                        602
+Mean corpuscular volume (MCV) :                      602
+Monocytes :                                          601
+Red blood cell distribution width (RDW) :            602
+Serum Glucose :                                      208
+Respiratory Syncytial Virus :                        1354
+Influenza A :                                        1354
+Influenza B :                                        1354
+Parainfluenza 1 :                                    1352
+CoronavirusNL63 :                                    1352
+Rhinovirus/Enterovirus :                             1352
+Mycoplasma pneumoniae :                              0
+Coronavirus HKU1 :                                   1352
+Parainfluenza 3 :                                    1352
+Chlamydophila pneumoniae :                           1352
+Adenovirus :                                         1352
+Parainfluenza 4 :                                    1352
+Coronavirus229E :                                    1352
+CoronavirusOC43 :                                    1352
+Inf A H1N1 2009 :                                    1352
+Bordetella pertussis :                               1352
+Metapneumovirus :                                    1352
+Parainfluenza 2 :                                    1352
+Neutrophils :                                        513
+Urea :                                               397
+Proteina C reativa mg/dL :                           506
+Creatinine :                                         424
+Potassium :                                          371
+Sodium :                                             370
+Influenza B, rapid test :                            820
+Influenza A, rapid test :                            820
+Alanine transaminase :                               225
+Aspartate transaminase :                             226
+Gamma-glutamyltransferase  :                         153
+Total Bilirubin :                                    182
+Direct Bilirubin :                                   182
+Indirect Bilirubin :                                 182
+Alkaline phosphatase :                               144
+Ionized calcium  :                                   50
+Strepto A :                                          332
+Magnesium :                                          40
+pCO2 (venous blood gas analysis) :                   136
+Hb saturation (venous blood gas analysis) :          136
+Base excess (venous blood gas analysis) :            136
+pO2 (venous blood gas analysis) :                    136
+Fio2 (venous blood gas analysis) :                   1
+Total CO2 (venous blood gas analysis) :              136
+pH (venous blood gas analysis) :                     136
+HCO3 (venous blood gas analysis) :                   136
+Rods # :                                             97
+Segmented :                                          97
+Promyelocytes :                                      97
+Metamyelocytes :                                     97
+Myelocytes :                                         97
+Myeloblasts :                                        97
+Urine - Esterase :                                   60
+Urine - Aspect :                                     70
+Urine - pH :                                         70
+Urine - Hemoglobin :                                 70
+Urine - Bile pigments :                              70
+Urine - Ketone Bodies :                              57
+Urine - Nitrite :                                    1
+Urine - Density :                                    70
+Urine - Urobilinogen :                               69
+Urine - Protein :                                    60
+Urine - Sugar :                                      0
+Urine - Leukocytes :                                 70
+Urine - Crystals :                                   70
+Urine - Red blood cells :                            70
+Urine - Hyaline cylinders :                          67
+Urine - Granular cylinders :                         69
+Urine - Yeasts :                                     70
+Urine - Color :                                      70
+Partial thromboplastin time (PTT)  :                 0
+Relationship (Patient/Normal) :                      91
+International normalized ratio (INR) :               133
+Lactic Dehydrogenase :                               101
+Prothrombin time (PT), Activity :                    0
+Vitamin B12 :                                        3
+Creatine phosphokinase (CPK)  :                      104
+Ferritin :                                           23
+Arterial Lactic Acid :                               27
+Lipase dosage :                                      8
+D-Dimer :                                            0
+Albumin :                                            13
+Hb saturation (arterial blood gases) :               27
+pCO2 (arterial blood gas analysis) :                 27
+Base excess (arterial blood gas analysis) :          27
+pH (arterial blood gas analysis) :                   27
+Total CO2 (arterial blood gas analysis) :            27
+HCO3 (arterial blood gas analysis) :                 27
+pO2 (arterial blood gas analysis) :                  27
+Arteiral Fio2 :                                      20
+Phosphor :                                           20
+ctO2 (arterial blood gas analysis) :                 27
