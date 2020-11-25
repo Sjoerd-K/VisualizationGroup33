@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import pandas as pd
 version = 1.0 # version of the script module
 """
