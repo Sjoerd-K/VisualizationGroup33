@@ -1,0 +1,29 @@
+/*Common styles*/
+
+*{
+    padding: none;
+    margin: none;
+    font-family: "Trebuchet MS";
+    font-weight: 200;
+    color: rgb(248, 123, 20);
+}
+
+html{
+    scroll-behavior: smooth;
+} 
+
+body{
+    background: white;
+}
+
+/*Plot styles*/
+.m_plot{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+    margin: 10px;
+    margin-top: 500px;
+}

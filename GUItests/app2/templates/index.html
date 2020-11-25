@@ -1,0 +1,48 @@
+{% extends base %}
+
+{% block preamble %}
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+    <link href="templates\m_style.css" rel="stylesheet" type="text/css" />
+    <style>
+        *{
+    padding: none;
+    margin: none;
+    font-weight: 200;
+    color: rgb(248, 123, 20);
+    }
+
+    html{
+        scroll-behavior: smooth;
+    } 
+
+    body{
+        background: white;
+    }
+
+    /*Plot styles*/
+    .m_plot{
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        text-align: center;
+        margin: 10px;
+        margin-top: 500px;
+    }
+    </style>
+
+    <title>Hello there!</title>
+    <script>
+    </script>
+
+{% endblock %}
+
+{% block contents%}
+    <div class="m_plot">
+        Big ass title
+    </div>
+    <div>
+        {{ embed(roots.random_points) }}
+    </div>
+{% endblock %}
