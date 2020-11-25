@@ -10,7 +10,7 @@ directory = r'./archive/'  # directory where all the data is stored
 
 # Initializing =========================================================================================
 
-print("DM: Loading modules",end=' ')
+print(f"DM: Loading modules...",end=' ')
 from matplotlib import axes
 import pandas as pd
 print("done")
@@ -24,8 +24,6 @@ print("done")
 dataset = dataset.set_index('Patient ID')  # set index to Patient ID
 
 # Methods ==============================================================================================
-
-print(dataset.head(1), end='\n\n\n')
 
 # gives a specific row of the dataset
 # returns: dictionary with each entry being an atribute (column) of the row: 
@@ -67,7 +65,10 @@ def getValByID(Patient_ID, property, index=None):
         raise KeyError (errormessage)
     return dataset[property][Patient_ID]
 
-print(getValByID('44477f75e8169d2', 'Patient age quantile'))
-for key in getRow(index=8).keys():
-    val = getRow(index=8)[key]
-    print(key, ((60-len(str(key)))*" "), val )
+# debugging ============================================================================================
+
+# this means the code only get called when this script is called as the main script, not as a module
+if __name__ == '__main__':  
+    for key in getRow(index=8).keys():
+        val = getRow(index=8)[key]
+        print(key, ((60-len(str(key)))*" "), val )
