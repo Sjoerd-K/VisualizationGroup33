@@ -2,7 +2,7 @@ attrs:
   Figure:
     outline_line_color: null
     min_border: 20
-    sizing_mode: 'stretch_both'
+    sizing_mode: 'fixed'
 
   Axis:
     major_label_text_font: 'Quicksand'

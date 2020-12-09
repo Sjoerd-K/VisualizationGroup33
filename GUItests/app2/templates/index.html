@@ -1,48 +1,32 @@
-{% extends base %}
-
+<!--{% extends base %}-->
+<!DOCTYPE html>
 {% block preamble %}
     <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
-    <link href="templates\m_style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="C:\Users\20191887\github\VisualizationGroup33\GUItests\app2\templates\m_style.css">
     <style>
-        *{
-    padding: none;
-    margin: none;
-    font-weight: 200;
-    color: rgb(248, 123, 20);
-    }
-
-    html{
-        scroll-behavior: smooth;
-    } 
-
-    body{
-        background: white;
-    }
-
-    /*Plot styles*/
-    .m_plot{
-        position: absolute;
-        top: 10px;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        text-align: center;
-        margin: 10px;
-        margin-top: 500px;
-    }
+        /*.Title{
+            text-align: center;
+            font-size: 40px;
+            font-family: Cambria;
+            font-weight: bold;
+            color: red;
+        }*/
     </style>
-
-    <title>Hello there!</title>
     <script>
     </script>
 
 {% endblock %}
 
 {% block contents%}
-    <div class="m_plot">
-        Big ass title
-    </div>
-    <div>
-        {{ embed(roots.random_points) }}
-    </div>
+    <header>
+        <nav>
+            <ul>
+                <li><p>Hello</p></li>
+                <li><p>There</p></li>
+                <li><p>General</p></li>
+                <li><p>Kenobi</p></li>
+            </ul>
+        </nav>
+    </header>
+    <!--<div class="PlotZoneContainer">{{ embed(roots.random_points) }}</div>-->
 {% endblock %}

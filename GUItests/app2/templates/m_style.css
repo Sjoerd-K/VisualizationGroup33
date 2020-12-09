@@ -1,29 +1,26 @@
 /*Common styles*/
-
-*{
-    padding: none;
-    margin: none;
-    font-family: "Trebuchet MS";
-    font-weight: 200;
-    color: rgb(248, 123, 20);
-}
-
 html{
     scroll-behavior: smooth;
-} 
-
-body{
-    background: white;
 }
 
-/*Plot styles*/
-.m_plot{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(71, 71, 71);
+}
 
-    text-align: center;
-    margin: 10px;
-    margin-top: 500px;
+li, p {
+    font-family: 'Trebuchet MS';
+    font-weight: 200;
+    font-size: 18px;
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10%;
 }
