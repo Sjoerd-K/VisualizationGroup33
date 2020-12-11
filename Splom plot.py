@@ -1,7 +1,9 @@
 from bokeh.models import ColumnDataSource
+from bokeh.layouts import column
 from bokeh.models.annotations import Legend
 from bokeh.plotting import figure, output_file, show
 import pandas as pd
+from bokeh.transform import jitter
 
 pd.set_option('display.max_columns', None)
 
@@ -40,15 +42,23 @@ TITLE = "Several blood chemicals versus Age quantile"
 df_blood = df[SELECTION].copy()
 print(df_blood)
 
-# use pandas function to group the values by age, and then compute the mean
-print(df_blood.groupby(['Patient age quantile']).mean())
+dfPositive = df_blood[df_blood['SARS-Cov-2 exam result'] == "positive"]
+dfNegative = df_blood[df_blood['SARS-Cov-2 exam result'] == "negative"]
+
+dfNegative.drop(columns = ['SARS-Cov-2 exam result'])
+dfPositive.drop(columns = ['SARS-Cov-2 exam result'])
 
 # set output file
-output_file("vis1.html")
+output_file("test.html")
 
-# set source of the data to the selected data grouped by age
-datasource = ColumnDataSource(df_blood.groupby(['Patient age quantile']))
+dcPositive = dfPositive.to_dict("list")
+dcNegative = dfNegative.to_dict("list")
 
-print(datasource)
+#print(dcBlood['Patient age quantile'])
 
-//goals: scatter plots of the blood laboratory tests next to each other. With the color showing positive and negative test results.
+splom = figure(title = "Decathlon: Discus x Javeline")
+splom.circle(jitter(dcPositive['Patient age quantile'], 0.1), dcPositive['Eosinophils'], size=20, color="green", alpha=0.5)
+splom.circle(jitter(dcNegative['Patient age quantile'], 0.1), dcNegative['Eosinophils'], size=20, color="red", alpha=0.5)
+
+show(splom)
+#goals: scatter plots of the blood laboratory tests next to each other. With the color showing positive and negative test results.
