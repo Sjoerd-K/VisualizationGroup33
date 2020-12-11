@@ -1,5 +1,5 @@
 from bokeh.models import ColumnDataSource
-from bokeh.layouts import column
+from bokeh.layouts import column, gridplot
 from bokeh.models.annotations import Legend
 from bokeh.plotting import figure, output_file, show
 import pandas as pd
@@ -45,8 +45,15 @@ print(df_blood)
 dfPositive = df_blood[df_blood['SARS-Cov-2 exam result'] == "positive"]
 dfNegative = df_blood[df_blood['SARS-Cov-2 exam result'] == "negative"]
 
-dfNegative.drop(columns = ['SARS-Cov-2 exam result'])
-dfPositive.drop(columns = ['SARS-Cov-2 exam result'])
+dfPosAge = dfPositive['Patient age quantile']
+dfNegAge = dfNegative['Patient age quantile']
+
+del dfPositive['SARS-Cov-2 exam result']
+del dfPositive['Patient age quantile']
+del dfNegative['SARS-Cov-2 exam result']
+del dfNegative['Patient age quantile']
+
+print(dfPositive)
 
 # set output file
 output_file("test.html")
@@ -56,9 +63,23 @@ dcNegative = dfNegative.to_dict("list")
 
 #print(dcBlood['Patient age quantile'])
 
-splom = figure(title = "Decathlon: Discus x Javeline")
-splom.circle(jitter(dcPositive['Patient age quantile'], 0.1), dcPositive['Eosinophils'], size=20, color="green", alpha=0.5)
-splom.circle(jitter(dcNegative['Patient age quantile'], 0.1), dcNegative['Eosinophils'], size=20, color="red", alpha=0.5)
+list = list(dcPositive)
+
+print(dcPositive[list[0]])
+
+figures = []
+
+for index in dcPositive:
+    scatter = figure(title = index, plot_width=200, plot_height=200, tools = "save, pan, reset, wheel_zoom")
+    scatter.circle(dfPosAge, dcPositive[index], size=5, color="green", alpha=0.5)
+    scatter.circle(dfNegAge, dcNegative[index], size=5, color="red", alpha=0.5)
+
+    figures.append(scatter)
+
+splom = gridplot([[figures[0], figures[1], figures[2]],
+                  [figures[3], figures[4], figures[5]],
+                  [figures[6], figures[7], figures[8]],
+                  [figures[9], figures[10], figures[11]]])
 
 show(splom)
 #goals: scatter plots of the blood laboratory tests next to each other. With the color showing positive and negative test results.
