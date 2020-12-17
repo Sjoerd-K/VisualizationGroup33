@@ -1,8 +1,9 @@
-from bokeh.models import ColumnDataSource
+import pandas as pd
+
+from bokeh.models import ColumnDataSource, Jitter, Legend, LegendItem
 from bokeh.layouts import column, gridplot
 from bokeh.models.annotations import Legend
 from bokeh.plotting import figure, output_file, show
-import pandas as pd
 from bokeh.transform import jitter
 
 pd.set_option('display.max_columns', None)
@@ -49,14 +50,12 @@ dfPosAge = dfPositive['Patient age quantile']
 dfNegAge = dfNegative['Patient age quantile']
 
 del dfPositive['SARS-Cov-2 exam result']
-del dfPositive['Patient age quantile']
 del dfNegative['SARS-Cov-2 exam result']
-del dfNegative['Patient age quantile']
 
 print(dfPositive)
 
 # set output file
-output_file("test.html")
+output_file("test.html", title = "Scatter visualization of blood tests")
 
 dcPositive = dfPositive.to_dict("list")
 dcNegative = dfNegative.to_dict("list")
@@ -65,21 +64,45 @@ dcNegative = dfNegative.to_dict("list")
 
 list = list(dcPositive)
 
-print(dcPositive[list[0]])
+list.remove('Patient age quantile')
 
 figures = []
 
-for index in dcPositive:
-    scatter = figure(title = index, plot_width=200, plot_height=200, tools = "save, pan, reset, wheel_zoom")
-    scatter.circle(dfPosAge, dcPositive[index], size=5, color="green", alpha=0.5)
-    scatter.circle(dfNegAge, dcNegative[index], size=5, color="red", alpha=0.5)
+sourcePos = ColumnDataSource(dfPositive)
+sourceNeg = ColumnDataSource(dfNegative)
+
+posLeg = []
+negLeg = []
+
+colorPositive = "blue"
+colorNegative = "red"
+
+legenda = []
+
+for index in list:
+    scatter = figure(title = index, plot_width=500, plot_height=300, tools = "save, pan, reset, wheel_zoom", x_axis_label='age quantile', y_axis_label='standardized test result')
+
+    p = scatter.circle(x=jitter("Patient age quantile", 0.5), y= index, size=4, color=colorPositive, alpha=0.5, source = sourcePos, muted_alpha=0.1)
+    n = scatter.circle(x=jitter("Patient age quantile", 0.5), y= index, size=4, color=colorNegative, alpha=0.5, source = sourceNeg, muted_alpha=0.1)
+
+    posLeg.append(("Covid-19 positive", [p]))
+    negLeg.append(("Covid-19 negative", [n]))
+
+    legend = Legend(items=posLeg + negLeg)
+
+    legend.click_policy = "mute"
+
+    scatter.add_layout(legend, 'right')
+
+    posLeg.clear()
+    negLeg.clear()
 
     figures.append(scatter)
 
 splom = gridplot([[figures[0], figures[1], figures[2]],
                   [figures[3], figures[4], figures[5]],
                   [figures[6], figures[7], figures[8]],
-                  [figures[9], figures[10], figures[11]]])
+                   [figures[9], figures[10], figures[11]]])
 
 show(splom)
 #goals: scatter plots of the blood laboratory tests next to each other. With the color showing positive and negative test results.
