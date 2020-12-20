@@ -77,8 +77,6 @@ negLeg = []
 colorPositive = "blue"
 colorNegative = "red"
 
-legenda = []
-
 for index in list:
     scatter = figure(title = index, plot_width=500, plot_height=300, tools = "save, pan, reset, wheel_zoom", x_axis_label='age quantile', y_axis_label='standardized test result')
 
