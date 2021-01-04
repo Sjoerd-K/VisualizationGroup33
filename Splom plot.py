@@ -1,5 +1,7 @@
-import pandas as pd
+# goals: scatter plots of the blood laboratory tests next to each other. With the color showing positive and negative test results.
 
+# Import modules
+import pandas as pd
 from bokeh.models import ColumnDataSource, Jitter, Legend, LegendItem
 from bokeh.layouts import column, gridplot
 from bokeh.models.annotations import Legend
@@ -29,11 +31,11 @@ SELECTION = [
     'Mean corpuscular volume (MCV)',
     'Monocytes',
     'Red blood cell distribution width (RDW)',
-    #'Serum Glucose', <-- averaged around 4 values per quantile, too few
+    #'Serum Glucose', <-- averaged around 4 values per quantile, which is not enough
     ]
 
-# set of colors to be used for the lines & markers in the graph
-COLORS = ['#C0C0C0','#808080','#800000','#FFFF00','#808000','#00FF00','#008000','#00FFFF','#008080','#0000FF','#000080','#FF00FF','#800080']
+colorPositive = "blue"      # color of the positive markers
+colorNegative = "red"       # color of the negative markers
 
 # title of the plot
 TITLE = "Several blood chemicals versus Age quantile"
@@ -43,12 +45,15 @@ TITLE = "Several blood chemicals versus Age quantile"
 df_blood = df[SELECTION].copy()
 print(df_blood)
 
+# seperating dataset by negative and positive test results
 dfPositive = df_blood[df_blood['SARS-Cov-2 exam result'] == "positive"]
 dfNegative = df_blood[df_blood['SARS-Cov-2 exam result'] == "negative"]
 
+# seperating age quantiles of negative and positive patients
 dfPosAge = dfPositive['Patient age quantile']
 dfNegAge = dfNegative['Patient age quantile']
 
+# removing datasets that are no longer needed
 del dfPositive['SARS-Cov-2 exam result']
 del dfNegative['SARS-Cov-2 exam result']
 
@@ -57,50 +62,70 @@ print(dfPositive)
 # set output file
 output_file("test.html", title = "Scatter visualization of blood tests")
 
+# convert dataframes to dictionaries
 dcPositive = dfPositive.to_dict("list")
 dcNegative = dfNegative.to_dict("list")
 
 #print(dcBlood['Patient age quantile'])
 
-list = list(dcPositive)
+list = list(dcPositive)                         # create list with all columns names of the dataset (which also includes age)
+list.remove('Patient age quantile')             # remove ages from list, as they are already seperated into their own variable
 
-list.remove('Patient age quantile')
+figures = []                                    # list of figures to be made
 
-figures = []
-
+# convert dataframes to datasources for the figures
 sourcePos = ColumnDataSource(dfPositive)
 sourceNeg = ColumnDataSource(dfNegative)
 
-posLeg = []
-negLeg = []
 
-colorPositive = "blue"
-colorNegative = "red"
+for index in list:                                  # for every blood column in the dataset...
 
-for index in list:
-    scatter = figure(title = index, plot_width=500, plot_height=300, tools = "save, pan, reset, wheel_zoom", x_axis_label='age quantile', y_axis_label='standardized test result')
+    # lists for the Legends of the plot
+    posLeg = []
+    negLeg = []
 
-    p = scatter.circle(x=jitter("Patient age quantile", 0.5), y= index, size=4, color=colorPositive, alpha=0.5, source = sourcePos, muted_alpha=0.1)
-    n = scatter.circle(x=jitter("Patient age quantile", 0.5), y= index, size=4, color=colorNegative, alpha=0.5, source = sourceNeg, muted_alpha=0.1)
+    scatter = figure(                                   # make a scatterplot with the following properties...
+        title = index,                                  # sets the titel of the plot to the name of the column
+        plot_width=500,                                 # plot width in pixels
+        plot_height=300,                                # plot height in pixels
+        tools = "save, pan, reset, wheel_zoom",         # interaction tools with the plot
+        x_axis_label='age quantile',                    # x-axis data from the source
+        y_axis_label='standardized test result'         # y-axis data from the source
+    )
 
+    # paint data in the 'index' column as scattered circles
+    p = scatter.circle(                                 # ... make point for the scatterplots with...
+        x = jitter("Patient age quantile", 0.5),        # ... 'Patient age quantile' as x-coordinate
+        y = index,                                      # ... 'index' (current blood chemical) as y-coordinate
+        size = 4,                                       # size of the circles in pixels
+        color = colorPositive,                          # color of the dots
+        alpha = 0.5,                                    # opacity of the dots
+        source = sourcePos,                             # datasource for the dots (positive patients only)
+        muted_alpha = 0.1                               # opacity of dots that are disabled by the user when clicking on the legend item
+    )
+    n = scatter.circle(                                 # ... make point for the scatterplots with...
+        x=jitter("Patient age quantile", 0.5),          # ... 'Patient age quantile' as x-coordinate
+        y= index,                                       # ... 'index' (current blood chemical) as y-coordinate
+        size=4,                                         # size of the circles in pixels
+        color=colorNegative,                            # color of the dots
+        alpha=0.5,                                      # opacity of the dots
+        source = sourceNeg,                             # datasource for the dots (negative patients only)
+        muted_alpha=0.1                                 # opacity of dots that are disabled by the user when clicking on the legend item
+    )
+
+    # add the painted dots to the Legend
     posLeg.append(("Covid-19 positive", [p]))
     negLeg.append(("Covid-19 negative", [n]))
 
-    legend = Legend(items=posLeg + negLeg)
+    # construct the legend
+    legend = Legend(items=posLeg + negLeg)              # create Legend object
+    legend.click_policy = "mute"                        # specify what happens when the user click on a legend item
+    scatter.add_layout(legend, 'right')                 # position of the Legend relative to the corresponding plot
 
-    legend.click_policy = "mute"
+    figures.append(scatter)                             # ... add the scatterplot to the list of figures
 
-    scatter.add_layout(legend, 'right')
+# create grid of plots using a list comprehension, this creates a list of lists where each inner list contains 3 consequtive elements from 'figures',
+# !! this only works if the length of 'figures' is exactly divisable by 3.  !!
+splom = gridplot([ [figures[i], figures[i+1], figures[i+2] ] for i in range(0, len(figures)-1, 3) ])
 
-    posLeg.clear()
-    negLeg.clear()
-
-    figures.append(scatter)
-
-splom = gridplot([[figures[0], figures[1], figures[2]],
-                  [figures[3], figures[4], figures[5]],
-                  [figures[6], figures[7], figures[8]],
-                   [figures[9], figures[10], figures[11]]])
-
-show(splom)
-#goals: scatter plots of the blood laboratory tests next to each other. With the color showing positive and negative test results.
+show(splom)  # show the plots on the page
