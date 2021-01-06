@@ -1,9 +1,0 @@
-SEATTLE_SOURCE = "data.seattle.gov"
-CALLS_ID = "kzjm-xkqj"
-TZ = "US/Pacific"
-HRS = 1
-MAX_HRS = 168
-N_TYPES = 10
-DATA_CRS = "epsg:4326"
-PLOT_CRS = "epsg:3857"
-UPDATE_INTERVAL = 1000
