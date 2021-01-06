@@ -423,22 +423,24 @@ p2.xgrid.grid_line_color = None                 # disables gridlines
 p2.y_range.start = 0                            # sets starting point for y-axis
 
 #Visualisation 3 - Heat map - Assignment 3
-dfVirus = df.iloc[:,  21:38]
-dfVirus["SARS-Cov-2 exam result"] = df["SARS-Cov-2 exam result"]
-del dfVirus['Mycoplasma pneumoniae']
+dfVirus = df.iloc[:,  21:38]                    # copy virus related column from dataset
+dfVirus["SARS-Cov-2 exam result"] = df["SARS-Cov-2 exam result"] # add covid-test results to virus copy of dataset
+del dfVirus['Mycoplasma pneumoniae']            # removing virusses with close to none entries
 
-for i in range(16):
+for i in range(16):                             # iterate over dataframe
+    # replace human langue values for virusses by easy to work with 1 and 0 values
     dfVirus.iloc[:, i] = dfVirus.iloc[:, i].replace(["not_detected"], 0)
     dfVirus.iloc[:, i] = dfVirus.iloc[:, i].replace(["detected"], 1)
 
+# replace human langue values for covid test result by easy to work with 1 and 0 values
 dfVirus.iloc[:, 16] = dfVirus.iloc[:, 16].replace(["negative"], 0)
 dfVirus.iloc[:, 16] = dfVirus.iloc[:, 16].replace(["positive"], 1)
 
-correlation = dfVirus.corr()
+correlation = dfVirus.corr()                    # create correlation object
 
-colors = list(reversed(colors[11]))  # we want an odd number to ensure 0 correlation is a distinct color
-labels = dfVirus.columns
-nlabels = len(labels)
+colors = list(reversed(colors[11]))             # we want an odd number to ensure 0 correlation is a distinct color
+labels = dfVirus.columns                        # use the dataframe column names (Virusses) as labels for the plot
+nlabels = len(labels)                           # specify number of labels
 
 def get_bounds(n):
     """Gets bounds for quads with n features"""
@@ -457,23 +459,35 @@ def get_colors(corr_array, colors):
         color.append(colors[ind-1])
     return color
 
+# create heatmap plot object
+p3 = figure(
+    plot_width=600,                             # plot width in pixels
+    plot_height=600,                            # plot height in pixels
+    x_range=(0,nlabels),                        # x-range (number of entries on the x-axis)
+    y_range=(0,nlabels),                        # y-range (number of entries on the y-axis)
+    title="Correlation Coefficient Heatmap",    # title of the plot
+    tools="save",                               # activates save tool
+    toolbar_location = "right"                  # specifies location of the toolbar relative to the plot
+)
 
-p3 = figure(plot_width=600, plot_height=600,
-           x_range=(0,nlabels), y_range=(0,nlabels),
-           title="Correlation Coefficient Heatmap",
-           tools="save", toolbar_location = "right")
-
-p3.xgrid.grid_line_color = None
-p3.ygrid.grid_line_color = None
-p3.xaxis.major_label_orientation = pi/4
-p3.yaxis.major_label_orientation = pi/4
+# plot 3 properties
+p3.xgrid.grid_line_color = None                 # disables x-gridlines
+p3.ygrid.grid_line_color = None                 # disables y-gridlines
+p3.xaxis.major_label_orientation = pi/4         # rotates x-labels by 45 degrees (pi/4 rad => 45 deg)
+p3.yaxis.major_label_orientation = pi/4         # rotates y-labels by 45 degrees
 
 top, bottom, left, right = get_bounds(nlabels)  # creates sqaures for plot
-color_list = get_colors(correlation.values.flatten(), colors)
+color_list = get_colors(correlation.values.flatten(), colors)   # makes list of colors for values
 
-p3.quad(top=top, bottom=bottom, left=left,
-       right=right, line_color='white',
-       color=color_list)
+# specifies how a square in the heatmap looks
+p3.quad(
+    top    = top, 
+    bottom = bottom, 
+    left   = left,
+    right  = right, 
+    line_color = 'white',
+    color = color_list
+)
 
 # Set ticks with labels
 ticks = [tick+0.5 for tick in list(range(nlabels))]
